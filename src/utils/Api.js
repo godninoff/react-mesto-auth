@@ -1,4 +1,4 @@
-export class Api {
+class Api {
     constructor({address, headers}) {
         this._address = address;
         this._headers = headers;
@@ -78,3 +78,14 @@ updateAvatar(formData) {
     .then(res => this._getResponseData(res))
 }
 }
+
+const api = new Api ({
+    address: 'https://mesto.nomoreparties.co/v1/cohort-24',
+    headers: {
+    authorization: '680bd78d-11d7-4092-977f-23afe781bd9e',
+    'Content-Type': 'application/json'
+    },
+  });
+  
+
+export default api;
