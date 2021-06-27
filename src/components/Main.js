@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../utils/Api';
+import Card from './Card';
 
 function Main(props) {
     const [userAvatar, setUserAvatar] = React.useState('');
@@ -24,7 +25,7 @@ return(
     <main className="content">
     <section className="profile">
         <div className="profile__avatar-button" onClick={props.onEditAvatar}>
-            <img className="profile__avatar" src={userAvatar} alt="Жак-Ив Кусто"/>
+            <img className="profile__avatar" src={userAvatar} alt="Аватар пользователя"/>
         </div>    
         <div className="profile__info">
             <h1 className="profile__title">{userName}</h1>
@@ -33,20 +34,11 @@ return(
         </div>
         <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
     </section>
+
     <section className="elements">
-        <template id="elements-card">
-            <article className="element">
-                <button type="button" className="element__remove"></button>
-                <img className="element__image" alt="Фото Карточки"/> 
-                <div className="element__group">
-                    <h2 className="element__name"></h2>
-                    <div className="element__like-field">
-                        <button type="button" className="element__like"></button>  
-                        <p className="element__like-counter"></p>
-                    </div>    
-                </div>
-            </article>
-        </template>
+        {cards.map((card) => (
+            <Card card={card} key={card._id} onCardClick={props.onCardClick} />
+        ))}
     </section>
     </main> 
 )
