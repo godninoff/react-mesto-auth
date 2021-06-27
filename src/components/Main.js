@@ -23,15 +23,15 @@ function Main(props) {
 return(
     <main className="content">
     <section className="profile">
-        <div className="profile__avatar-button">
+        <div className="profile__avatar-button" onClick={props.onEditAvatar}>
             <img className="profile__avatar" src={userAvatar} alt="Жак-Ив Кусто"/>
         </div>    
         <div className="profile__info">
-            <h1 className="profile__title">Жак-Ив Кусто</h1>
-            <button type="button" className="profile__button-edit"></button>
-            <p className="profile__subtitle">Исследователь океана</p>
+            <h1 className="profile__title">{userName}</h1>
+            <button type="button" className="profile__button-edit" onClick={props.onEditProfile}></button>
+            <p className="profile__subtitle">{userDescription}</p>
         </div>
-        <button type="button" className="profile__add-button"></button>
+        <button type="button" className="profile__add-button" onClick={props.onAddPlace}></button>
     </section>
     <section className="elements">
         <template id="elements-card">
