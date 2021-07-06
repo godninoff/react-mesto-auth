@@ -59,9 +59,9 @@ removeCard(id) {
     .then(res => this._getResponseData(res))
 }
 
- likeStanding(cardId, like) {
-    return fetch(`${this._address}/cards/likes/${cardId}`, {
-        method: like ? 'DELETE' : 'PUT',
+changeLikeCardStatus(id, isLiked) {
+    return fetch(`${this._address}/cards/likes/${id}`, {
+        method: isLiked ? 'PUT' : 'DELETE',
         headers: this._headers,
     })
     .then(res => this._getResponseData(res))

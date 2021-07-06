@@ -27,6 +27,7 @@
 @import url('./blocks/profile/__add-button/profile__add-button.css');
 @import url('./blocks/element/element.css');
 @import url('./blocks/element/__remove/element__remove.css');
+@import url('./blocks/element/__remove/_hidden/element__remove_hidden.css');
 @import url('./blocks/element/__image/element__image.css');
 @import url('./blocks/element/__name/element__name.css');
 @import url('./blocks/element/__like/element__like.css');
