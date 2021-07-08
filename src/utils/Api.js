@@ -77,7 +77,7 @@ setUserAvatar(avatarData) {
     })
     .then(res => this._getResponseData(res))
 }
-}
+};
 
 const api = new Api ({
     address: 'https://mesto.nomoreparties.co/v1/cohort-24',
