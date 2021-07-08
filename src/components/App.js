@@ -44,7 +44,29 @@ function App() {
         })
     }
 
+    function handleUpdateUser({name, about}) {
+        api.setUserInfo(name, about)
+        .then((res) => {
+            setCurrentUser(res);
+            closeAllPopups();
+        }).catch((e) => console.log(e));   
+    }
 
+    function handleUpdateAvatar(avatarData) {
+        api.setUserAvatar(avatarData)
+        .then((res) => {
+            setCurrentUser(res);
+            closeAllPopups(); 
+        }).catch((e) => console.log(e));
+    }
+
+    function handleAddPlaceSubmit(name, link) {
+        api.createCard(name, link)
+        .then((res) => {
+            setCards([res, ...cards]);
+            closeAllPopups();  
+        }).catch((e) => console.log(e));
+    }
 
     function handleEditAvatarClick() {
         setIsEditAvatarPopupOpen(true);
@@ -73,14 +95,14 @@ function App() {
     
     <div className="root">
         <CurrentUserContext.Provider value={currentUser}>
-        <Header />  
-        <Main onCardDelete={handleCardRemove} onCardLike={handleCardLike} onCardClick={handleCardClick} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} cards={cards} />  
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-        <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
-        <RemoveCardRequestPopup />
-        <ImagePopup card={selectedCard !== null && selectedCard} onClose={closeAllPopups} />
-        <Footer /> 
+            <Header />  
+            <Main onCardDelete={handleCardRemove} onCardLike={handleCardLike} onCardClick={handleCardClick} onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} cards={cards} />  
+            <EditProfilePopup onUpdateUser={handleUpdateUser}  isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+            <AddPlacePopup onAddPlace={handleAddPlaceSubmit} isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
+            <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+            <RemoveCardRequestPopup />
+            <ImagePopup card={selectedCard !== null && selectedCard} onClose={closeAllPopups} />
+            <Footer /> 
         </CurrentUserContext.Provider>
     </div>
     

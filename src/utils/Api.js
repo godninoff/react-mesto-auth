@@ -27,25 +27,25 @@ getInitialCards() {
     .then(res => this._getResponseData(res))
 }
 
-setUserInfo(formData) {
+setUserInfo(name, about) {
     return fetch(`${this._address}/users/me`, {
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({
-            name: formData.name,
-            about: formData.description
+            name: name,
+            about: about
         })
     })
     .then(res => this._getResponseData(res))
 }
 
-createCard(formData) {
+createCard(name, link) {
     return fetch(`${this._address}/cards`, {
         method: 'POST',
         headers: this._headers,
         body: JSON.stringify({
-            name: formData.name,
-            link: formData.link
+            name: name,
+            link: link
         })
     })
     .then(res => this._getResponseData(res))
@@ -67,12 +67,12 @@ changeLikeCardStatus(id, isLiked) {
     .then(res => this._getResponseData(res))
 }
 
-updateAvatar(formData) {
+setUserAvatar(avatarData) {
     return fetch(`${this._address}/users/me/avatar`, {
         method: 'PATCH',
         headers: this._headers,
         body: JSON.stringify({
-            avatar: formData.avatar
+            avatar: avatarData.avatar
         })
     })
     .then(res => this._getResponseData(res))
