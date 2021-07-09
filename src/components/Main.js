@@ -21,7 +21,13 @@ return(
 
     <section className="elements">
         {props.cards.map((card) => (
-            <Card card={card} key={card._id} onCardDelete={props.onCardDelete} onCardLike={props.onCardLike} onCardClick={props.onCardClick} />
+            <Card 
+                card={card} 
+                key={card._id} 
+                onCardDelete={props.onCardDelete} 
+                onCardLike={props.onCardLike} 
+                onCardClick={props.onCardClick} 
+            />
         ))}
     </section>
     </main> 
