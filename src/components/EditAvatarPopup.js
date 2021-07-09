@@ -12,7 +12,7 @@ function EditAvatarPopup(props) {
         });
       } 
       
-      const handleClick= () => {
+      const handleAvatarInputReset = () => {
         avatarRef.current.value = '';
        }
 
@@ -33,7 +33,7 @@ function EditAvatarPopup(props) {
         type="url" 
         placeholder="Ссылка на новый аватар" 
         ref={avatarRef} 
-        onClick={()=> handleClick()}
+        onClick={() => handleAvatarInputReset()}
       />
         <span className="popup__form-error avatar-input-error"></span>
     </PopupWithForm> 
