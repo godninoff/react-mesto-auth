@@ -40,7 +40,7 @@ function EditProfilePopup(props) {
         >
             <input 
                 required 
-                value={name|| ''} 
+                value={name || ''} 
                 onChange={handleChangeUserName} 
                 className="popup__input popup__input_type_name" 
                 name="name" 

@@ -8,8 +8,8 @@ function ConfirmPopup(props) {
             title="Вы уверены?" 
             buttonSaveText="Да" 
             isOpen={props.isOpen} 
-            onClose={props.onClose}>  
-        </PopupWithForm>
+            onClose={props.onClose}
+        />
     )
 }
 export default ConfirmPopup

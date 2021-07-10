@@ -3,6 +3,15 @@ import PopupWithForm from './PopupWithForm';
 
 function EditAvatarPopup(props) {
     const avatarRef = React.useRef();
+    const [avatar, setAvatar] = React.useState('');
+
+    React.useEffect(() => {
+      setAvatar('');
+  },[props.isOpen]);
+
+  function handleAvatarName(e) {
+    setAvatar(e.target.value);
+}
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -10,11 +19,7 @@ function EditAvatarPopup(props) {
         props.onUpdateAvatar({
           avatar: avatarRef.current.value,
         });
-      } 
-      
-      const handleAvatarInputReset = () => {
-        avatarRef.current.value = '';
-       }
+      }
 
     return(
     <PopupWithForm 
@@ -33,7 +38,8 @@ function EditAvatarPopup(props) {
         type="url" 
         placeholder="Ссылка на новый аватар" 
         ref={avatarRef} 
-        onClick={() => handleAvatarInputReset()}
+        value={avatar || ''}
+        onChange={handleAvatarName}
       />
         <span className="popup__form-error avatar-input-error"></span>
     </PopupWithForm> 
