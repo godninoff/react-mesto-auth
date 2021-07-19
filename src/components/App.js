@@ -9,14 +9,23 @@ import ConfirmPopup from './ConfirmPopup';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/api';
+import {Route, Switch, BrowserRouter, Redirect, useHistory} from 'react-router-dom'; 
+import ProtectedRoute from './ProtectedRoute';
+import Login from './Login';
+import Register from './Register';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
+    const [loggedIn, setLoggedIn] = React.useState(false);
+    const history = useHistory();
+    const [email, setEmail] = React.useState('');
 
     React.useEffect(() => {
         Promise.all([
@@ -87,24 +96,43 @@ function App() {
     function closeAllPopups() {
         setIsEditAvatarPopupOpen(false);
         setIsEditProfilePopupOpen(false);
+        setIsInfoTooltipOpen(false);
         setIsAddPlacePopupOpen(false);
         setSelectedCard(null);
     }
+
+    function handleLogin() {
+        setLoggedIn(true);
+      }
 
   return (
     
     <div className="root">
         <CurrentUserContext.Provider value={currentUser}>
             <Header />  
-            <Main 
-                onCardDelete={handleCardRemove} 
-                onCardLike={handleCardLike} 
-                onCardClick={handleCardClick} 
-                onEditAvatar={handleEditAvatarClick} 
-                onEditProfile={handleEditProfileClick} 
-                onAddPlace={handleAddPlaceClick} 
-                cards={cards} 
-            />  
+            <BrowserRouter>
+            <Switch>
+                <ProtectedRoute 
+                    exact
+                    path="/"
+                    component={Main}
+                    onCardDelete={handleCardRemove} 
+                    onCardLike={handleCardLike} 
+                    onCardClick={handleCardClick} 
+                    onEditAvatar={handleEditAvatarClick} 
+                    onEditProfile={handleEditProfileClick} 
+                    onAddPlace={handleAddPlaceClick} 
+                    cards={cards}
+                    loggedIn={loggedIn} 
+                />
+                <Route path="/sign-up">
+                    <Register />
+                </Route>
+                <Route path="/sign-in">
+                    <Login />
+                </Route>
+            </Switch> 
+            </BrowserRouter>
             <EditProfilePopup 
                 onUpdateUser={handleUpdateUser}  
                 isOpen={isEditProfilePopupOpen} 
@@ -125,6 +153,12 @@ function App() {
                 card={selectedCard !== null && selectedCard} 
                 onClose={closeAllPopups} 
             />
+            <InfoTooltip 
+                isOpen={isInfoTooltipOpen}
+                onClose={closeAllPopups}
+                message={'Что-то пошло не так! Попробуйте ещё раз.'}
+            />
+
             <Footer /> 
         </CurrentUserContext.Provider>
     </div>
