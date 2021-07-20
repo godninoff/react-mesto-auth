@@ -41,6 +41,7 @@ return (
                     name="email" 
                     onChange={handleChange} 
                     value={email} 
+                    id="email"
                     required 
                 />
                 <span className="form__input-error"></span>
@@ -51,6 +52,7 @@ return (
                     name="password" 
                     onChange={handleChange} 
                     value={password} 
+                    id="password"
                     required 
                 />
                 <span className="form__input-error"></span>

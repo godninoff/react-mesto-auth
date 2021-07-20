@@ -14,6 +14,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import InfoTooltip from './InfoTooltip';
+import * as auth from '../utils/auth';
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -23,9 +24,10 @@ function App() {
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
+    const [isSuccess, setIsSuccess] = React.useState(false);
     const [loggedIn, setLoggedIn] = React.useState(false);
-    const history = useHistory();
     const [email, setEmail] = React.useState('');
+    const history = useHistory();
 
     React.useEffect(() => {
         Promise.all([
@@ -37,6 +39,22 @@ function App() {
                 setCards(cards);
             }).catch((e) => console.log(e));
     },[]);
+
+    React.useEffect(() => {
+        if(localStorage.getItem("jwt")) {
+        const jwt = localStorage.getItem("jwt");
+        auth.checkToken(jwt).then((res) => {
+            if(res) {
+                setEmail(res.data.email);
+            }
+            setLoggedIn(true);
+            history.push("/");
+        }).catch((e) => {
+            console.error(e);
+            setIsInfoTooltipOpen(true);       
+        })
+    }
+    }, []);
 
     function handleCardLike(card) {
         const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -101,15 +119,50 @@ function App() {
         setSelectedCard(null);
     }
 
-    function handleLogin() {
-        setLoggedIn(true);
-      }
+    function handleRegisterSubmit(email, password) {
+        auth.register(email, password)
+            .then((data) => {
+                if(data) {
+                    localStorage.setItem("jwt", data.jwt);
+                    setEmail(data.data.email);
+                }
+                history.push("/sign-in");
+                setIsSuccess(true);
+                setIsInfoTooltipOpen(true);    
+            })
+            .catch((e) => {
+                console.error(e);
+                setIsSuccess(false);
+                setIsInfoTooltipOpen(true);    
+            })
+    }
+
+    function handleLoginSubmit(email, password) {
+        return auth
+            .authorization(email, password)
+            .then((data) => {
+                localStorage.setItem("jwt", data.token);
+                setEmail(email);
+                setLoggedIn(true);
+                history.push("/");
+            }).catch((e) => {
+                console.error(e);
+                setIsInfoTooltipOpen(true); 
+            })
+    }
+
+    function handleLogout() {
+        localStorage.removeItem("jwt");
+        setEmail('');
+        setLoggedIn(false);
+        history.push("/sign-in");
+    }
 
   return (
     
     <div className="root">
         <CurrentUserContext.Provider value={currentUser}>
-            <Header />  
+            <Header email={email} loggedIn={loggedIn} onSignOut={handleLogout} />  
             <BrowserRouter>
             <Switch>
                 <ProtectedRoute 
@@ -126,10 +179,13 @@ function App() {
                     loggedIn={loggedIn} 
                 />
                 <Route path="/sign-up">
-                    <Register />
+                    <Register handleRegister={handleRegisterSubmit} />
                 </Route>
                 <Route path="/sign-in">
-                    <Login />
+                    <Login handleLogin={handleLoginSubmit} />
+                </Route>
+                <Route>
+                    {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
                 </Route>
             </Switch> 
             </BrowserRouter>
@@ -156,7 +212,7 @@ function App() {
             <InfoTooltip 
                 isOpen={isInfoTooltipOpen}
                 onClose={closeAllPopups}
-                message={'Что-то пошло не так! Попробуйте ещё раз.'}
+                success={isSuccess}
             />
 
             <Footer /> 
