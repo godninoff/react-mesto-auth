@@ -6,3 +6,8 @@
     color: #FFFFFF; 
     text-decoration: none;
 }
+
+.header__link:hover {
+    opacity: 0.6;
+  }
+  

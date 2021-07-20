@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Register(props) {
 
@@ -58,7 +58,7 @@ function Register(props) {
                     name="submit">Зарегистрироваться
                 </button>
                 <p className="sign__form-bottom-text">
-                    <Link to="/sign-in" className="sign__form-bottom-link">
+                    <Link to="/sign-in" className="sign__form-bottom-link header__link">
                         Уже зарегистрированы? Войти
                     </Link>
                 </p>

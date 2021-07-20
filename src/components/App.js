@@ -9,7 +9,7 @@ import ConfirmPopup from './ConfirmPopup';
 import ImagePopup from './ImagePopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import api from '../utils/api';
-import {Route, Switch, BrowserRouter, Redirect, useHistory} from 'react-router-dom'; 
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom'; 
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
@@ -163,7 +163,6 @@ function App() {
     <div className="root">
         <CurrentUserContext.Provider value={currentUser}>
             <Header email={email} loggedIn={loggedIn} onSignOut={handleLogout} />  
-            <BrowserRouter>
             <Switch>
                 <ProtectedRoute 
                     exact
@@ -188,7 +187,6 @@ function App() {
                     {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
                 </Route>
             </Switch> 
-            </BrowserRouter>
             <EditProfilePopup 
                 onUpdateUser={handleUpdateUser}  
                 isOpen={isEditProfilePopupOpen} 
